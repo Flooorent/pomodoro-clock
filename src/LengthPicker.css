@@ -1,6 +1,7 @@
 .length-picker-container {
     display: flex;
     flex-direction: row;
+    text-transform: capitalize;
 }
 
 .picker-container {

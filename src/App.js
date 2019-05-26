@@ -2,7 +2,8 @@ import React from 'react';
 import './App.css';
 import LengthPicker from './LengthPicker'
 
-
+const BREAK = 'Break'
+const SESSION = 'Session'
 
 class App extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class App extends React.Component {
 
     this.defaultBreakLength = 5
     this.defaultSessionLength = 25
+    this.defaultTimeLeft = `${this.defaultSessionLength}:00`
     this.minLength = 1
     this.maxLength = 60
 
@@ -18,14 +20,15 @@ class App extends React.Component {
         break: this.defaultBreakLength,
         session: this.defaultSessionLength
       },
-      timeLeft: this.defaultSessionLength,
-      currentTimer: 'Session',
+      timeLeft: this.defaultTimeLeft,
+      currentTimer: SESSION,
       isRunning: false
     }
 
     this.handleReset = this.handleReset.bind(this)
     this.handleDecrementClick = this.handleDecrementClick.bind(this)
     this.handleIncrementClick = this.handleIncrementClick.bind(this)
+    this.handleStartStop = this.handleStartStop.bind(this)
   }
 
   componentDidMount() {
@@ -49,8 +52,8 @@ class App extends React.Component {
         break: this.defaultBreakLength,
         session: this.defaultSessionLength
       },
-      timeLeft: this.defaultSessionLength,
-      currentTimer: 'Session',
+      timeLeft: this.defaultTimeLeft,
+      currentTimer: SESSION,
       isRunning: false
     })
   }
@@ -69,7 +72,7 @@ class App extends React.Component {
         }
 
         if(breakOrSession.toLowerCase() === "session") {
-          newState.timeLeft = newBreakOrSessionLength
+          newState.timeLeft = this.formatTimeLeft(newBreakOrSessionLength)
         }
 
         this.setState(newState)
@@ -91,7 +94,7 @@ class App extends React.Component {
         }
 
         if(breakOrSession.toLowerCase() === "session") {
-          newState.timeLeft = newBreakOrSessionLength
+          newState.timeLeft = this.formatTimeLeft(newBreakOrSessionLength)
         }
 
         this.setState(newState)
@@ -99,9 +102,69 @@ class App extends React.Component {
     }
   }
 
-  render() {
-    const formattedTimeLeft = this.state.timeLeft.toString().padStart(2, '0') + ':00'
+  handleStartStop() {
+    if(this.state.isRunning) {
+      clearInterval(this.timerID)
 
+      this.setState({
+        isRunning: !this.state.isRunning
+      })
+    } else {
+      this.setState({
+        isRunning: !this.state.isRunning
+      }, () => {
+        this.timerID = setInterval(
+          () => this.tick(),
+          1000
+        )
+      }) 
+    }
+  }
+
+  /**
+   * Remove one second to timeLeft. Switch timers if timer's minutes went negative.
+   */
+  tick() {
+    let [minutes, seconds] = this.state.timeLeft.split(':').map(e => parseInt(e))
+
+    if(seconds >= 1) {
+      seconds = seconds - 1
+    } else {
+      seconds = 59
+      minutes = minutes - 1
+    }
+
+    if(minutes === -1) {
+      this.changeTimer()
+    } else {
+      this.setState({
+        timeLeft: this.formatTimeLeft(minutes, seconds)
+      })
+    }
+  }
+
+  formatTimeLeft(minutes, seconds) {
+    const finalSeconds = seconds ? seconds : 0
+    const formattedMinutes = minutes.toString().padStart(2, '0')
+    const formattedSeconds = finalSeconds.toString().padStart(2, '0')
+    return `${formattedMinutes}:${formattedSeconds}`
+  }
+
+  changeTimer() {
+    if(this.state.currentTimer === SESSION) {
+      this.setState({
+        currentTimer: BREAK,
+        timeLeft: this.formatTimeLeft(this.state.lengths.break)
+      })
+    } else {
+      this.setState({
+        currentTimer: SESSION,
+        timeLeft: this.formatTimeLeft(this.state.lengths.session)
+      })
+    }
+  }
+
+  render() {
     return (
       <div className="App">
         <div id="pomodoro-container">
@@ -125,11 +188,11 @@ class App extends React.Component {
 
           <div id="session">
             <div id="timer-label">{this.state.currentTimer}</div>
-            <div id="time-left">{formattedTimeLeft}</div>
+            <div id="time-left">{this.state.timeLeft}</div>
           </div>
 
           <div id="controls">
-            <div id="start_stop"></div>
+            <button id="start_stop" type="button" onClick={this.handleStartStop}>Start-Stop</button>
             <button id="reset" type="button" onClick={this.handleReset}>Reset</button>
           </div>
         </div>

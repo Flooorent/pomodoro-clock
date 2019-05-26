@@ -1,0 +1,15 @@
+.App {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+#pomodoro-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#lengths-picker-container {
+    display: flex;
+}

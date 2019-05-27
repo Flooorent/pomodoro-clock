@@ -1,4 +1,7 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSync, faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
+
 import './App.css';
 import LengthPicker from './LengthPicker'
 
@@ -171,7 +174,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
+      <div id="App">
         <div id="pomodoro-container">
 
           <header>Pomodoro Clock</header>
@@ -197,8 +200,15 @@ class App extends React.Component {
           </div>
 
           <div id="controls">
-            <button id="start_stop" type="button" onClick={this.handleStartStop}>Start-Stop</button>
-            <button id="reset" type="button" onClick={this.handleReset}>Reset</button>
+            <div id="start_stop" onClick={this.handleStartStop}>
+              <FontAwesomeIcon icon={faPlay} />
+              <FontAwesomeIcon icon={faPause} />
+            </div>
+            <FontAwesomeIcon
+              id="reset"
+              icon={faSync}
+              onClick={this.handleReset}
+            />
           </div>
         </div>
       </div>

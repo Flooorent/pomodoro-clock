@@ -1,8 +1,9 @@
-.App {
+#App {
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
+    height: 100%;
 }
 
 #pomodoro-container {
@@ -12,4 +13,33 @@
 
 #lengths-picker-container {
     display: flex;
+    justify-content: space-between;
+}
+
+header {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+#session {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#timer-label {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#time-left {
+    font-size: 50px;
+    font-weight: bold;
 }

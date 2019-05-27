@@ -12,6 +12,7 @@ class App extends React.Component {
     this.defaultBreakLength = 5
     this.defaultSessionLength = 25
     this.defaultTimeLeft = `${this.defaultSessionLength}:00`
+    this.defaultTimer = SESSION
     this.minLength = 1
     this.maxLength = 60
 
@@ -21,7 +22,7 @@ class App extends React.Component {
         session: this.defaultSessionLength
       },
       timeLeft: this.defaultTimeLeft,
-      currentTimer: SESSION,
+      currentTimer: this.defaultTimer,
       isRunning: false
     }
 
@@ -47,13 +48,17 @@ class App extends React.Component {
   }
 
   handleReset() {
+    if(this.timerID) {
+      clearInterval(this.timerID)
+    }
+
     this.setState({
       lengths: {
         break: this.defaultBreakLength,
         session: this.defaultSessionLength
       },
       timeLeft: this.defaultTimeLeft,
-      currentTimer: SESSION,
+      currentTimer: this.defaultTimer,
       isRunning: false
     })
   }

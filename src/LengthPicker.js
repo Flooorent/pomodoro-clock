@@ -11,14 +11,16 @@ function LengthPicker(props) {
             <div className="picker-container">
                 <FontAwesomeIcon
                     id={`${props.label}-decrement`}
+                    className="picker-item"
                     icon={faArrowDown}
                     onClick={props.handleDecrementClick}
                 />
 
-                <div id={`${props.label}-length`}>{props.length}</div>
+                <div id={`${props.label}-length`} className="picker-item">{props.length}</div>
 
                 <FontAwesomeIcon
                     id={`${props.label}-increment`}
+                    className="picker-item"
                     icon={faArrowUp}
                     onClick={props.handleIncrementClick}
                 />

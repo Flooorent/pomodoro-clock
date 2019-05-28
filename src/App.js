@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSync, faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
+import 'typeface-roboto'
 
 import './App.css';
 import LengthPicker from './LengthPicker'
@@ -200,12 +201,13 @@ class App extends React.Component {
           </div>
 
           <div id="controls">
-            <div id="start_stop" onClick={this.handleStartStop}>
+            <div id="start_stop" className="control" onClick={this.handleStartStop}>
               <FontAwesomeIcon icon={faPlay} />
               <FontAwesomeIcon icon={faPause} />
             </div>
             <FontAwesomeIcon
               id="reset"
+              className="control"
               icon={faSync}
               onClick={this.handleReset}
             />

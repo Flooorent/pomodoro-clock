@@ -4,11 +4,17 @@
     justify-content: center;
     align-items: center;
     text-transform: capitalize;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
+    margin-right: 30px;
+    margin-left: 30px;
 }
 
 .picker-container {
     display: flex;
     justify-content: space-between;
+}
+
+.picker-item {
+    margin: 7px;
 }
